@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace ContainerDemoApp.Hubs
 {
     public class Cart : Hub
     {
+        //private const string CONN = "Data Source=127.0.0.1,1433;Initial Catalog=snoopyshoppingcart;Persist Security Info=True;User ID=sa;Password=Password1234;";
+        private const string CONN = "Data Source=sqlinux;Initial Catalog=snoopyshoppingcart;Persist Security Info=True;User ID=sa;Password=Password1234;";
         public static List<IncomingRequest> ConnectedIPs;
 
         public async Task Send()
@@ -43,7 +45,7 @@ namespace ContainerDemoApp.Hubs
             //var incomingRequest = new IncomingRequest { AddedOn = DateTime.UtcNow, ConnectionID = ConnectioID, IP = IP, CartItem = CartItem };
             //ConnectedIPs.Add(incomingRequest);
 
-            using (var connection = new SqlConnection("Data Source=127.0.0.1,1433;Initial Catalog=snoopyshoppingcart;Persist Security Info=True;User ID=sa;Password=Password1234;"))
+            using (var connection = new SqlConnection(CONN))
             {
 
                 using (SqlCommand cmd = new SqlCommand())
@@ -65,7 +67,7 @@ namespace ContainerDemoApp.Hubs
 
         private OutgoingResponse GenerateResponse()
         {
-            using (var connection = new SqlConnection("Data Source=127.0.0.1,1433;Initial Catalog=snoopyshoppingcart;Persist Security Info=True;User ID=sa;Password=Password1234;"))
+            using (var connection = new SqlConnection(CONN))
             {
                 var command = new SqlCommand("SELECT * FROM shopping WHERE AddedOn > DATEADD(s,-2,GETUTCDATE())", connection);
                 connection.Open();
