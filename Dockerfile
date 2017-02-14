@@ -1,5 +1,5 @@
 # The `FROM` instruction specifies the base image. You are
-# extending the `microsoft/aspnet` image.
+# extending the `microsoft/aspnetcore` image.
 
 FROM microsoft/aspnetcore
 
